@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>曲靖市十中校园墙 - 龙俊宇制作</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF66B2',
+                        secondary: '#FF99CC',
+                        light: '#FFF9FC',
+                        darkPink: '#E60073',
+                        glass: 'rgba(255, 255, 255, 0.85)',
+                    },
+                    fontFamily: {
+                        sans: ['SF Pro Display', 'PingFang SC', 'Microsoft YaHei', 'sans-serif'],
+                    },
+                    animation: {
+                        'pop-in': 'popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+                        'wiggle': 'wiggle 2s ease-in-out infinite',
+                        'fade-in': 'fadeIn 0.5s ease-out',
+                        'jelly': 'jelly 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards',
+                        'nav-shrink': 'navShrink 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards',
+                        'nav-expand': 'navExpand 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards',
+                    },
+                    keyframes: {
+                        popIn: {
+                            '0%': { transform: 'scale(0.8)', opacity: 0 },
+                            '100%': { transform: 'scale(1)', opacity: 1 },
+                        },
+                        wiggle: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-6px)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: 0 },
+                            '100%': { opacity: 1 },
+                        },
+                        jelly: {
+                            '0%': { transform: 'scale(1)' },
+                            '30%': { transform: 'scale(1.1)' },
+                            '50%': { transform: 'scale(0.9)' },
+                            '100%': { transform: 'scale(1)' },
+                        },
+                        navShrink: {
+                            '0%': { transform: 'scale(1)', opacity: 1 },
+                            '100%': { transform: 'scale(0.8)', opacity: 0, bottom: '-20px' },
+                        },
+                        navExpand: {
+                            '0%': { transform: 'scale(0.8)', opacity: 0, bottom: '-20px' },
+                            '100%': { transform: 'scale(1)', opacity: 1, bottom: '16px' },
+                        }
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .liquid-glass {
+                background: rgba(255, 255, 255, 0.85);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 102, 178, 0.18);
+                box-shadow: 0 4px 20px rgba(255, 102, 178, 0.1);
+                transition: all 0.3s ease-in-out;
+            }
+            .liquid-glass:hover {
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px);
+                box-shadow: 0 8px 30px rgba(255, 102, 178, 0.2);
+                transform: translateY(-2px);
+            }
+            .text-gradient {
+                background-clip: text;
+                -webkit-background-clip: text;
+                color: transparent;
+                background-image: linear-gradient(90deg, #FF66B2, #FF3399);
+            }
+            .bg-gradient-white-pink {
+                background: linear-gradient(135deg, #FFFFFF 0%, #FFF9FC 50%, #FFE6F2 100%);
+            }
+            .btn-ripple {
+                position: relative;
+                overflow: hidden;
+            }
+            .btn-ripple:after {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 0;
+                height: 0;
+                background: rgba(255, 255, 255, 0.3);
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                transition: width 0.6s ease, height 0.6s ease;
+            }
+            .btn-ripple:active:after {
+                width: 200px;
+                height: 200px;
+                opacity: 0;
+            }
+            .message-jelly {
+                animation: jelly 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+            }
+            .gradient-border {
+                position: relative;
+                border-radius: 1.25rem;
+                background: white;
+            }
+            .gradient-border::before {
+                content: "";
+                position: absolute;
+                inset: -2px;
+                z-index: -1;
+                border-radius: 1.375rem;
+                background: linear-gradient(45deg, #FFFFFF, #FF66B2, #FF99CC, #FFFFFF);
+                background-size: 200% 200%;
+                animation: gradientMove 8s ease infinite;
+            }
+            @keyframes gradientMove {
+                0% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+                100% { background-position: 0% 50%; }
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-white-pink min-h-screen font-sans scrollbar-hide" id="app">
+    <!-- 顶部导航 (液态玻璃) -->
+    <header class="fixed top-0 left-0 w-full z-40 px-4 py-3" id="header">
+        <div class="liquid-glass rounded-2xl p-2 flex items-center justify-between">
+            <div class="flex items-center">
+                <h1 class="text-lg font-bold text-gradient">曲靖十中校园墙</h1>
+            </div>
+            <div class="relative flex-1 mx-4">
+                <input type="text" placeholder="搜索功能/帖子/同学" class="w-full py-2 px-4 rounded-full bg-white/50 border border-white/20 focus:outline-none focus:border-primary text-sm">
+                <i class="fa fa-search absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
+            </div>
+            <button class="w-10 h-10 rounded-full flex items-center justify-center text-gray-700 btn-ripple" id="color-adjust">
+                <i class="fa fa-paint-brush"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- 主容器 (分三个独立页面：主页/分类/个人中心) -->
+    <div class="pt-20 pb-20 px-4 container mx-auto" id="main-container">
+        <!-- 1. 主页 (默认显示，白配粉渐变) -->
+        <div id="home-page" class="animate-fade-in">
+            <!-- 个人信息卡片 (渐变边框) -->
+            <section class="gradient-border p-6 mb-6 animate-pop-in">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gradient">龙俊宇</h1>
+                        <div class="flex gap-2 mt-1">
+                            <span class="bg-yellow-400 text-white text-xs px-2 py-0.5 rounded-full">创作者</span>
+                            <span class="bg-blue-500 text-white text-xs px-2 py-0.5 rounded-full">站长</span>
+                        </div>
+                    </div>
+                    <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary text-2xl">
+                        <i class="fa fa-user"></i>
+                    </div>
+                </div>
+                <!-- 数据统计 (横向) -->
+                <div class="grid grid-cols-4 gap-2 text-center">
+                    <div>
+                        <p class="text-xl font-bold text-primary">48</p>
+                        <p class="text-xs text-gray-600">发布帖子</p>
+                    </div>
+                    <div>
+                        <p class="text-xl font-bold text-primary">2.8k</p>
+                        <p class="text-xs text-gray-600">获赞数</p>
+                    </div>
+                    <div>
+                        <p class="text-xl font-bold text-primary">156</p>
+                        <p class="text-xs text-gray-600">分享数</p>
+                    </div>
+                    <div>
+                        <p class="text-xl font-bold text-primary">92</p>
+                        <p class="text-xs text-gray-600">收藏数</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 分类功能区 (固定6个分类，横向滚动) -->
+            <section class="mb-8">
+                <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                    <span class="w-2 h-6 bg-primary rounded-full mr-2"></span>
+                    功能分类
+                </h2>
+                <div class="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+                    <button class="liquid-glass rounded-2xl p-4 min-w-[120px] flex flex-col items-center justify-center animate-pop-in" style="animation-delay: 0.1s" id="anonymous-post">
+                        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xl mb-2">
+                            <i class="fa fa-user-secret"></i>
+                        </div>
+                        <span class="text-sm font-medium">匿名投稿</span>
+                    </button>
+                    <button class="liquid-glass rounded-2xl p-4 min-w-[120px] flex flex-col items-center justify-center animate-pop-in" style="animation-delay: 0.2s" id="melon-section">
+                        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xl mb-2">
+                            <i class="fa fa-fire"></i>
+                        </div>
+                        <span class="text-sm font-medium">吃瓜现场</span>
+                    </button>
+                    <button class="liquid-glass rounded-2xl p-4 min-w-[120px] flex flex-col items-center justify-center animate-pop-in" style="animation-delay: 0.3s" id="all-posts">
+                        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xl mb-2">
+                            <i class="fa fa-book"></i>
+                        </div>
+                        <span class="text-sm font-medium">全部帖子</span>
+                    </button>
+                    <button class="liquid-glass rounded-2xl p-4 min-w-[120px] flex flex-col items-center justify-center animate-pop-in" style="animation-delay: 0.4s" id="confess-wall">
+                        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xl mb-2">
+                            <i class="fa fa-heart"></i>
+                        </div>
+                        <span class="text-sm font-medium">表白现场</span>
+                    </button>
+                    <button class="liquid-glass rounded-2xl p-4 min-w-[120px] flex flex-col items-center justify-center animate-pop-in" style="animation-delay: 0.5s" id="friend-interact">
+                        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xl mb-2">
+                            <i class="fa fa-users"></i>
+                        </div>
+                        <span class="text-sm font-medium">交友互动</span>
+                    </button>
+                    <button class="liquid-glass rounded-2xl p-4 min-w-[120px] flex flex-col items-center justify-center animate-pop-in" style="animation-delay: 0.6s" id="anonymous-chat">
+                        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xl mb-2">
+                            <i class="fa fa-comment-seo"></i>
+                        </div>
+                        <span class="text-sm font-medium">匿名悄悄话</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- 我的帖子 (带编辑/删除功能) -->
+            <section class="mb-8">
+                <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                    <span class="w-2 h-6 bg-primary rounded-full mr-2"></span>
+                    我的帖子
+                </h2>
+                <div class="liquid-glass rounded-3xl p-5 animate-pop-in mb-4" id="my-post">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="font-bold text-gray-800">校园樱花打卡</h3>
+                        <div class="flex gap-2">
+                            <button class="text-primary text-sm btn-ripple" id="edit-post">
+                                <i class="fa fa-edit mr-1"></i>编辑
+                            </button>
+                            <button class="text-red-500 text-sm btn-ripple" id="delete-post">
+                                <i class="fa fa-trash mr-1"></i>删除
+                            </button>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4" id="post-content">学校的樱花大道太出片了，春天的气息扑面而来～</p>
+                    <!-- 帖子图片 (3张示例) -->
+                    <div class="grid grid-cols-3 gap-2 mb-4">
+                        <img src="https://picsum.photos/200/200?cherry1" alt="樱花1" class="w-full h-24 object-cover rounded-xl">
+                        <img src="https://picsum.photos/200/200?cherry2" alt="樱花2" class="w-full h-24 object-cover rounded-xl">
+                        <img src="https://picsum.photos/200/200?cherry3" alt="樱花3" class="w-full h-24 object-cover rounded-xl">
+                    </div>
+                    <div class="flex items-center justify-between text-gray-600">
+                        <button class="flex items-center gap-2 btn-ripple" id="like-btn">
+                            <i class="fa fa-heart-o text-lg"></i>
+                            <span>138</span>
+                        </button>
+                        <button class="flex items-center gap-2 btn-ripple" id="comment-btn">
+                            <i class="fa fa-comment-o text-lg"></i>
+                            <span>42</span>
+                        </button>
+                        <button class="flex items-center gap-2 btn-ripple" id="collect-btn">
+                            <i class="fa fa-bookmark-o text-lg"></i>
+                            <span>76</span>
+                        </button>
+                        <button class="flex items-center gap-2 btn-ripple" id="share-btn">
+                            <i class="fa fa-share text-lg"></i>
+                            <span>分享</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 更多帖子占位 -->
+                <div class="liquid-glass rounded-3xl p-5 animate-pop-in flex items-center justify-center">
+                    <p class="text-gray-500">点击下方发布按钮，分享你的校园生活～</p>
+                </div>
+            </section>
+
+            <!-- 发布按钮 (悬浮，渐变) -->
+            <button class="fixed bottom-20 right-4 w-14 h-14 rounded-full bg-gradient-to-r from-primary to-secondary text-white flex items-center justify-center text-2xl shadow-lg animate-wiggle btn-ripple" id="publish-btn">
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+
+        <!-- 2. 分类页面 (独立，横向功能布局) -->
+        <div id="category-page" class="hidden animate-fade-in">
+            <section class="liquid-glass rounded-3xl p-6 mb-6">
+                <h1 class="text-2xl font-bold text-gradient mb-2">功能分类</h1>
+                <p class="text-gray-600">选择你想参与的板块，开启校园社交</p>
+            </section>
+
+            <!-- 分类功能区 (固定6个，横向多行) -->
+            <div class="grid grid-cols-2 gap-4 mb-8">
+                <button class="liquid-glass rounded-2xl p-6 flex flex-col items-center justify-center animate-pop-in" style="animation-delay: 0.1s" id="anonymous-post-cat">
+                    <div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center text-primary text-2xl mb-3">
+                        <i class="fa fa-user-secret"></i>
+                    </div>
+                    <span class="text-base font-medium">匿名投稿</span>
+                    <p class="text-xs text-gray-500 mt-1 text-center">无需暴露身份，分享你的故事</p>
+                </button>
+                <button class="liquid-glass rounded-2xl p-6 flex flex-col items-center justify-center animate-pop-in" style="animation-delay: 0.2s" id="melon-section-cat">
+                    <div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center text-primary text-2xl mb-3">
+                        <i class="fa fa-fire"></i>
+                    </div>
+                    <span class="text-base font-medium">吃瓜现场</span>
+                    <p class="text-xs text-gray-500 mt-1 text-center">校园新鲜事，一手掌握</p>
+                </button>
+                <button class="liquid-glass rounded-2xl p-6 flex flex-col items-center justify-center animate-pop-in" style="animation-delay: 0.3s" id="all-posts-cat">
+                    <div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center text-primary text-2xl mb-3">
+                        <i class="fa fa-book"></i>
+                    </div>
+                    <span class="text-base font-medium">全部帖子</span>
+                    <p class="text-xs text-gray-500 mt-1 text-center">浏览所有校园动态</p>
+                </button>
+                <button class="liquid-glass rounded-2xl p-6 flex flex-col items-center justify-center animate-pop-in" style="animation-delay: 0.4s" id="confess-wall-cat">
+                    <div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center text-primary text-2xl mb-3">
+                        <i class="fa fa-heart"></i>
+                    </div>
+                    <span class="text-base font-medium">表白现场</span>
+                    <p class="text-xs text-gray-500 mt-1 text-center">大胆说出你的心意</p>
+                </button>
+                <button class="liquid-glass rounded-2xl p-6 flex flex-col items-center justify-center animate-pop-in" style="animation-delay: 0.5s" id="friend-interact-cat">
+                    <div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center text-primary text-2xl mb-3">
+                        <i class="fa fa-users"></i>
+                    </div>
+                    <span class="text-base font-medium">交友互动</span>
+                    <p class="text-xs text-gray-500 mt-1 text-center">认识志同道合的同学</p>
+                </button>
+                <button class="liquid-glass rounded-2xl p-6 flex flex-col items-center justify-center animate-pop-in" style="animation-delay: 0.6s" id="anonymous-chat-cat">
+                    <div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center text-primary text-2xl mb-3">
+                        <i class="fa fa-comment-seo"></i>
+                    </div>
+                    <span class="text-base font-medium">匿名悄悄话</span>
+                    <p class="text-xs text-gray-500 mt-1 text-center">匿名聊天，无压力交流</p>
+                </button>
+            </div>
+        </div>
+
+        <!-- 3. 个人中心页面 (独立) -->
+        <div id="profile-page" class="hidden animate-fade-in">
+            <!-- 个人信息头部 (渐变边框) -->
+            <section class="gradient-border p-6 mb-6 animate-pop-in">
+                <div class="flex flex-col items-center">
+                    <div class="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center text-primary text-3xl mb-4">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <h1 class="text-2xl font-bold text-gray-800">龙俊宇</h1>
+                    <div class="flex gap-2 mt-2 mb-3">
+                        <span class="bg-yellow-400 text-white text-xs px-2 py-0.5 rounded-full">创作者</span>
+                        <span class="bg-blue-500 text-white text-xs px-2 py-0.5 rounded-full">站长</span>
+                    </div>
+                    <div class="liquid-glass rounded-full px-4 py-2 flex items-center text-sm">
+                        <i class="fa fa-level-up text-primary mr-2"></i>
+                        <span>等级 Lv.32 (聊天318句)</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 数据统计 (横向) -->
+            <section class="grid grid-cols-4 gap-4 mb-6">
+                <div class="liquid-glass rounded-2xl p-4 flex flex-col items-center justify-center animate-pop-in" style="animation-delay: 0.2s">
+                    <p class="text-2xl font-bold text-primary">48</p>
+                    <p class="text-xs text-gray-600">发布帖子</p>
+                </div>
+                <div class="liquid-glass rounded-2xl p-4 flex flex-col items-center justify-center animate-pop-in" style="animation-delay: 0.4s">
+                    <p class="text-2xl font-bold text-primary">2.8k</p>
+                    <p class="text-xs text-gray-600">获赞数</p>
+                </div>
+                <div class="liquid-glass rounded-2xl p-4 flex flex-col items-center justify-center animate-pop-in" style="animation-delay: 0.6s">
+                    <p class="text-2xl font-bold text-primary">156</p>
+                    <p class="text-xs text-gray-600">分享数</p>
+                </div>
+                <div class="liquid-glass rounded-2xl p-4 flex flex-col items-center justify-center animate-pop-in" style="animation-delay: 0.8s">
+                    <p class="text-2xl font-bold text-primary">92</p>
+                    <p class="text-xs text-gray-600">收藏数</p>
+                </div>
+            </section>
+
+            <!-- 个人功能 (横向布局) -->
+            <section class="grid grid-cols-3 gap-4 mb-6">
+                <button class="liquid-glass rounded-2xl p-4 flex flex-col items-center justify-center animate-pop-in" style="animation-delay: 0.2s">
+                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary text-lg mb-2">
+                        <i class="fa fa-user-edit"></i>
+                    </div>
+                    <span class="text-xs font-medium">资料编辑</span>
+                </button>
+                <button class="liquid-glass rounded-2xl p-4 flex flex-col items-center justify-center animate-pop-in" style="animation-delay: 0.4s">
+                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary text-lg mb-2">
+                        <i class="fa fa-heart"></i>
+                    </div>
+                    <span class="text-xs font-medium">我的收藏</span>
+                </button>
+                <button class="liquid-glass rounded-2xl p-4 flex flex-col items-center justify-center animate-pop-in" style="animation-delay: 0.6s">
+                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary text-lg mb-2">
+                        <i class="fa fa-comment"></i>
+                    </div>
+                    <span class="text-xs font-medium">我的私信</span>
+                </button>
+                <button class="liquid-glass rounded-2xl p-4 flex flex-col items-center justify-center animate-pop-in" style="animation-delay: 0.8s">
+                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary text-lg mb-2">
+                        <i class="fa fa-cog"></i>
+                    </div>
+                    <span class="text-xs font-medium">设置</span>
+                </button>
+                <button class="liquid-glass rounded-2xl p-4 flex flex-col items-center justify-center animate-pop-in" style="animation-delay: 1s">
+                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary text-lg mb-2">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                    <span class="text-xs font-medium">帮助中心</span>
+                </button>
+                <button class="liquid-glass rounded-2xl p-4 flex flex-col items-center justify-center animate-pop-in" style="animation-delay: 1.2s">
+                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary text-lg mb-2">
+                        <i class="fa fa-share-alt"></i>
+                    </div>
+                    <span class="text-xs font-medium">邀请好友</span>
+                </button>
+            </section>
+        </div>
+
+        <!-- 4. 私信聊天页面 (独立) -->
+        <div id="chat-page" class="hidden animate-fade-in">
+            <!-- 聊天头部 -->
+            <section class="liquid-glass rounded-3xl p-4 mb-6">
+                <div class="flex items-center">
+                    <button class="w-10 h-10 rounded-full flex items-center justify-center text-gray-700 btn-ripple mr-3" id="back-from-chat">
+                        <i class="fa fa-arrow-left"></i>
+                    </button>
+                    <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xl mr-3">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-gray-800">匿名同学</h2>
+                        <p class="text-xs text-green-500">在线</p>
+                    </div>
+                    <button class="ml-auto w-10 h-10 rounded-full flex items-center justify-center text-gray-700 btn-ripple" id="add-contact">
+                        <i class="fa fa-user-plus"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- 联系人列表 -->
+            <section class="liquid-glass rounded-3xl p-4 mb-6">
+                <h3 class="font-bold text-gray-800 mb-3">最近联系人</h3>
+                <div class="space-y-3" id="contact-list">
+                    <div class="flex items-center p-2 rounded-xl hover:bg-gray-100 cursor-pointer btn-ripple contact-item" data-name="匿名同学">
+                        <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary text-lg mr-3">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-medium text-gray-800 text-sm">匿名同学</h4>
+                            <p class="text-xs text-gray-500 truncate">校园墙太好用啦！</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs text-gray-400">10:23</p>
+                            <span class="inline-block w-2 h-2 bg-red-500 rounded-full mt-1"></span>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-2 rounded-xl hover:bg-gray-100 cursor-pointer btn-ripple contact-item" data-name="初三学长">
+                        <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary text-lg mr-3">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-medium text-gray-800 text-sm">初三学长</h4>
+                            <p class="text-xs text-gray-500 truncate">数学笔记需要吗？</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs text-gray-400">昨天</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 添加联系人按钮 -->
+                <button class="w-full mt-3 py-2 rounded-xl border border-dashed border-primary/30 text-primary text-sm flex items-center justify-center btn-ripple" id="add-new-contact">
+                    <i class="fa fa-plus mr-1"></i> 添加新联系人
+                </button>
+            </section>
+
+            <!-- 聊天界面 (默认隐藏，选择联系人后显示) -->
+            <div id="chat-interface" class="hidden">
+                <div class="liquid-glass rounded-3xl p-4 mb-6 h-80 overflow-y-auto scrollbar-hide" id="chat-content">
+                    <!-- 聊天记录 -->
+                    <div class="flex mb-4 justify-start">
+                        <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-sm mr-2 mt-1">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <div class="bg-gray-100 rounded-xl rounded-tl-none p-3 max-w-[70%]">
+                            <p class="text-xs">你好！这个校园墙是你做的吗？太厉害了～</p>
+                            <div class="flex justify-end mt-1">
+                                <p class="text-[10px] text-gray-500">10:20</p>
+                                <span class="ml-2 text-[10px] text-blue-500">已读</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 模拟对方回复按钮 -->
+                <button class="w-full mb-3 py-1 text-xs text-primary text-center btn-ripple" id="simulate-reply">
+                    <i class="fa fa-repeat mr-1"></i> 模拟对方回复
+                </button>
+                <!-- 聊天输入框 -->
+                <div class="liquid-glass rounded-3xl p-4">
+                    <div class="flex items-center">
+                        <button class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-700 btn-ripple mr-2">
+                            <i class="fa fa-image"></i>
+                        </button>
+                        <input type="text" placeholder="输入消息..." class="flex-1 py-2 px-4 rounded-full bg-gray-100 focus:outline-none text-sm" id="chat-input">
+                        <button class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white btn-ripple ml-2" id="send-chat">
+                           
+                         
+                         
